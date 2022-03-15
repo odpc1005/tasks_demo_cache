@@ -1,4 +1,4 @@
-class Api::V1::TasksController < ApplicationController
+class Api::V1::TasksController < Api::V1::BaseController
   before_action :set_task, only: %i[ show edit update destroy ]
 
   # GET /tasks or /tasks.json
@@ -24,15 +24,11 @@ class Api::V1::TasksController < ApplicationController
   def create
     @task = Task.new(task_params)
 
-    respond_to do |format|
       if @task.save
-        format.html { redirect_to task_url(@task), notice: "Task was successfully created." }
-        format.json { render :show, status: :created, location: @task }
+        render json: @task, status: :created
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @task.errors, status: :unprocessable_entity }
+        render json: @task.errors, status: :unprocessable_entity
       end
-    end
   end
 
   # PATCH/PUT /tasks/1 or /tasks/1.json
