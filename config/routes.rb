@@ -1,6 +1,23 @@
 Rails.application.routes.draw do
-  resources :tasks
-  
+  get 'static_pages/home'
+  get 'static_pages/help'
+  get 'static_pages/about'
+
+  resources :tasks, only: [:create] do
+    resources :task_logs
+    member do
+      put 'done'
+    end
+    collection do
+      get 'search'
+    end
+  end
+
+  resource :comment
+
+
+
+
   namespace :api do
     namespace :v1 do
       resources :tasks

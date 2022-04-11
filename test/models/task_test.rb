@@ -9,6 +9,12 @@ class TaskTest < ActiveSupport::TestCase
     @task = Task.new(body: "")
   end
   test "should have a body" do
+    
     assert_not @task.valid?
   end
+
+  test "name of test" do
+
+  end
+
 end
