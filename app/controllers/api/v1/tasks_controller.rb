@@ -3,12 +3,29 @@ class Api::V1::TasksController < Api::V1::BaseController
 
   # GET /tasks or /tasks.json
   def index
-    @tasks = Task.all
+    @tasks = Rails.cache.fetch('tasks', expires_in: 30.seconds) do
+      puts 'slow calculation'
+      result = []
+      Task.all.each_with_index do |t,i|
+        t.body = t.body.upcase
+        if i % 1000 == 0
+          sleep 0.1
+          result.push(t)
+        end
+      end
+      result
+    end
     render json: @tasks
   end
 
   # GET /tasks/1 or /tasks/1.json
   def show
+    puts @task.cache_key_with_version
+    @task_as_json = Rails.cache.fetch(@task.cache_key_with_version) do
+      sleep 5
+      @task.attributes.merge(last_time_cache_busted: Time.zone.now).to_json
+    end
+    render json: @task_as_json
   end
 
   # GET /tasks/new

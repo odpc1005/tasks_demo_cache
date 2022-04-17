@@ -1,2 +1,6 @@
 <h1>About this app</h1>
 <title>Rails tutorial | about</title>
+
+<% cache('time', expires_in: 5.seconds) do %>
+  <p><%= Time.zone.now %></p>
+<% end %>
