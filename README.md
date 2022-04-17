@@ -5,20 +5,25 @@ application up and running.
 
 Things you may want to cover:
 
-* Ruby version
+This file includes a dockerfile and a docker-compose to help you setup
+the development environment.
 
-* System dependencies
+Please clone the repo
+git clone url
 
-* Configuration
+start the services
+docker-compose up
 
-* Database creation
+run migrations
+docker-compose exec web rails db:migrate
 
-* Database initialization
+setup the webpacker
+docker-compose exec web bash
+yarn install
 
-* How to run the test suite
+docker-compose down
 
-* Services (job queues, cache servers, search engines, etc.)
+docker-compose up
 
-* Deployment instructions
 
-* ...
+
